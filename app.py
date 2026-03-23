@@ -15,12 +15,14 @@ def predict():
     data = request.json
 
     features = np.array([
-        data["failed_logins"],
-        data["login_frequency"],
-        data["ip_risk_score"],
-        data["geo_distance"],
-        data["time_anomaly"]
-    ]).reshape(1, -1)
+    0,  # protocol (default tcp)
+    data.get("duration", 0),
+    data.get("src_bytes", 0),
+    data.get("dst_bytes", 0),
+    data.get("pkts", 0),
+    data.get("conn_rate", 0),
+    data.get("failed_logins", 0)
+]).reshape(1, -1)
 
     pred = model.predict(features)[0]
 
